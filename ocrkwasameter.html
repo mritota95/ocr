@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>OCR</title>
+</head>
+<body>
+<h1>OCR</h1>
+<p>This is a simple OCR application that can be used to recognize text from images.</p>
+<p>To use the application, simply upload an image and click the "Recognize" button. The application will then recognize the text in the image and display it below the image.</p>
+<p>You can also use the application to recognize text from a webcam. To do this, simply click the "Webcam" button and the application will start recognizing text from the webcam.</p>
+<p>The application is currently in development, so there may be some bugs. Please let me know if you find any bugs or have any suggestions.</p>
+<p>Thank you for using the application!</p>
+<form action="ocr.py" method="post" enctype="multipart/form-data">
+<input type="file" name="image">
+<input type="submit" value="Recognize">
+</form>
+<p>The recognized text is:</p>
+<pre id="text"></pre>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pytesseract/0.3.7/tesseract.js"></script>
+<script>
+var image = document.getElementById("image");
+var text = document.getElementById("text");
+
+function recognize() {
+  var reader = new FileReader();
+  reader.onload = function(event) {
+    var imageData = event.target.result;
+    var tesseract = new Tesseract();
+    tesseract.setDatapath("tessdata/");
+    tesseract.setLanguage("eng");
+    var text = tesseract.imageToText(imageData);
+    text.split('\n').forEach(function(line) {
+      text.innerHTML += line + "<br>";
+    });
+  };
+  reader.readAsDataURL(image);
+}
+</script>
+</body>
+</html>
